@@ -21,3 +21,11 @@ create table mensagem (
     Texto varchar(100) not null,
     primary key(Usuario, Chat, Hora)
 );
+
+insert into usuario(Nome)
+    values
+        ('PATIENT 0');
+
+insert into chat(Nome)
+    values
+        ('GERAL');
