@@ -23,6 +23,26 @@ const banco = createClient(
 //     return data
 // }
 
+async function getMessages() {
+    let _, data = await banco
+    .from('mensagem')
+    .select('usuario.nome, mensagem.texto, mensagem.hora')
+    
+    // console.log(data)
+    return data
+}
+
+async function sendMessages(texto) {
+    let _, data = await banco
+    .from('mensagem')
+    .insert({ usuario: 1, chat: 1, hora: '0001-01-01 01:01:01', texto: this.texto })
+// programar um sign in/login rudimentar mais funcional
+// na real tem que fazer verificadores pra todos os bgls do insert :/
+
+// dar uma olhada nos codigos do telecken pra ver como faz os botoes e como enviar ngc
+    return data
+}
+
 // LOGIN
 async function entrar() {
     const email = config.email
@@ -44,9 +64,9 @@ async function entrar() {
 
 async function main() {
     await entrar();
+    getMessages();
     // let personagens = await buscarPersonagens();
-    console.log(personagens);
-
+    // console.log(personagens);
 }
 
 main();
