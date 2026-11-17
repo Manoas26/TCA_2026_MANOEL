@@ -1,4 +1,8 @@
 const { createClient } = supabase;
+const sendButton = document.querySelector('#send');
+const messagesContainer = document.querySelector('.messages');
+let message = document.querySelector('#message');
+let localMessages = [];
 
 const banco = createClient(
     config.url,
@@ -11,11 +15,11 @@ const banco = createClient(
 //     .select("*")
     
 //     // console.log(data)
+//     let _, data = await banco
 //     return  await data
 // }
 
 // async function getItens() {
-//     let _, data = await banco
 //     .from('itens')
 //     .select('*')
     
@@ -26,20 +30,37 @@ const banco = createClient(
 async function getMessages() {
     let _, data = await banco
     .from('mensagem')
-    .select('usuario.nome, mensagem.texto, mensagem.hora')
+    .select('*')
+    /*.limit(20 + m)
     
-    // console.log(data)
+    var m = 0;
+    m += 20;*/
+    localMessages = await data.data;
+    showMessages();
+     console.log(data)
     return data
 }
 
-async function sendMessages(texto) {
+async function showMessages() {
+    messagesContainer.innerHTML = '';
+            localMessages.forEach(mensagem => {
+                messagesContainer.innerHTML += `
+                    <div class="message-card" id="message-${mensagem.id}">
+                        <p>${mensagem.usuario}: ${mensagem.texto} (${mensagem.hora})</p>
+                    </div>
+                `;
+            });
+}
+
+async function sendMessages(text) {
     let _, data = await banco
     .from('mensagem')
-    .insert({ usuario: 1, chat: 1, hora: '0001-01-01 01:01:01', texto: this.texto })
+    .insert({ usuario: 1, chat: 1, hora: new Date().toLocaleString('sv-SE').replace(',', ''), texto: text })
 // programar um sign in/login rudimentar mais funcional
 // na real tem que fazer verificadores pra todos os bgls do insert :/
 
 // dar uma olhada nos codigos do telecken pra ver como faz os botoes e como enviar ngc
+    console.log(data);
     return data
 }
 
@@ -70,3 +91,7 @@ async function main() {
 }
 
 main();
+
+sendButton.addEventListener('click', (event) => {
+    sendMessages(message.value);
+})

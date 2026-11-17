@@ -31,6 +31,7 @@
   .chat .messages {
 	grid-column: 1 / -1;
 	overflow-y: auto;
+	
   }
   
   /* Menu lateral à direita */
