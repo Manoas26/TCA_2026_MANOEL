@@ -1,8 +1,14 @@
 const { createClient } = supabase;
+const user = prompt("Insira seu nome");
 const sendButton = document.querySelector('#send');
+const active = document.querySelector("#active");
+const ronaldo = document.querySelector("#ronaldo");
 const messagesContainer = document.querySelector('.messages');
+const chats = document.querySelectorAll('input[name="batepapo"]');
+let chat = 0;
 let message = document.querySelector('#message');
 let localMessages = [];
+
 
 const banco = createClient(
     config.url,
@@ -31,13 +37,15 @@ async function getMessages() {
     let _, data = await banco
     .from('mensagem')
     .select('*')
+    .contains('chat', chat)
     /*.limit(20 + m)
     
     var m = 0;
     m += 20;*/
     localMessages = await data.data;
     showMessages();
-     console.log(data)
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+     //console.log(data)
     return data
 }
 
@@ -46,7 +54,7 @@ async function showMessages() {
             localMessages.forEach(mensagem => {
                 messagesContainer.innerHTML += `
                     <div class="message-card" id="message-${mensagem.id}">
-                        <p>${mensagem.usuario}: ${mensagem.texto} (${mensagem.hora})</p>
+                        <p>${mensagem.texto} (${mensagem.hora})</p>
                     </div>
                 `;
             });
@@ -60,7 +68,8 @@ async function sendMessages(text) {
 // na real tem que fazer verificadores pra todos os bgls do insert :/
 
 // dar uma olhada nos codigos do telecken pra ver como faz os botoes e como enviar ngc
-    console.log(data);
+    //console.log(data);
+    message.value = "";
     return data
 }
 
@@ -86,12 +95,23 @@ async function entrar() {
 async function main() {
     await entrar();
     getMessages();
+    setInterval(getMessages, 200);
     // let personagens = await buscarPersonagens();
     // console.log(personagens);
 }
 
 main();
 
-sendButton.addEventListener('click', (event) => {
-    sendMessages(message.value);
+active.innerHTML = 'usuario atual: '+user;
+
+ronaldo.addEventListener('submit', (event) => {
+    event.preventDefault();
+    sendMessages(user+": "+message.value);
 })
+
+chats.forEach((radio) => {
+    radio.addEventListener('change', (event) => {
+      chat = parseInt(event.target.value);
+      console.log(chat);
+    });
+  });
