@@ -9,43 +9,24 @@ let chat = 0;
 let message = document.querySelector('#message');
 let localMessages = [];
 
-
 const banco = createClient(
     config.url,
     config.publishableKey
 )
 
-// async function buscarPersonagens (){
-//     let _, data = await banco
-//     .from('personagens')
-//     .select("*")
-    
-//     // console.log(data)
-//     let _, data = await banco
-//     return  await data
-// }
-
-// async function getItens() {
-//     .from('itens')
-//     .select('*')
-    
-//     // console.log(data)
-//     return data
-// }
-
 async function getMessages() {
     let _, data = await banco
     .from('mensagem')
     .select('*')
-    .contains('chat', chat)
+    .eq('chat', chat)
     /*.limit(20 + m)
     
-    var m = 0;
+    let m = 0;
     m += 20;*/
     localMessages = await data.data;
     showMessages();
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
-     //console.log(data)
+     console.log(data);
     return data
 }
 
@@ -60,15 +41,12 @@ async function showMessages() {
             });
 }
 
-async function sendMessages(text) {
+async function sendMessages(text, chat) {
     let _, data = await banco
     .from('mensagem')
-    .insert({ usuario: 1, chat: 1, hora: new Date().toLocaleString('sv-SE').replace(',', ''), texto: text })
-// programar um sign in/login rudimentar mais funcional
-// na real tem que fazer verificadores pra todos os bgls do insert :/
+    .insert({ usuario: 1, chat: chat, hora: new Date().toLocaleString('sv-SE').replace(',', ''), texto: text })
 
-// dar uma olhada nos codigos do telecken pra ver como faz os botoes e como enviar ngc
-    //console.log(data);
+    console.log(data);
     message.value = "";
     return data
 }
@@ -94,7 +72,7 @@ async function entrar() {
 
 async function main() {
     await entrar();
-    getMessages();
+    getMessages(chat);
     setInterval(getMessages, 200);
     // let personagens = await buscarPersonagens();
     // console.log(personagens);
@@ -106,12 +84,14 @@ active.innerHTML = 'usuario atual: '+user;
 
 ronaldo.addEventListener('submit', (event) => {
     event.preventDefault();
-    sendMessages(user+": "+message.value);
+    sendMessages(user+": "+message.value, chat);
 })
 
 chats.forEach((radio) => {
-    radio.addEventListener('change', (event) => {
+    radio.addEventListener('change', (event) => { //conserta isso
       chat = parseInt(event.target.value);
       console.log(chat);
     });
   });
+
+  //aprende a usar realtime para atualizar a tela sem precisar ficar dando refresh, e tbm aprende a usar o .on() para ficar escutando os eventos do banco de dados
