@@ -1,8 +1,7 @@
 * {
-	--background-color: #ffffff;
-	--section-background-color: #f0f0f0bb;
-	--border-color: 1px solid #ffffff70;
-	--font-color: #000000;
-	--highlight-color: #a6ff00;
-	--link-color: #fbff00;
+	--background-color: #2f2f2f;
+	--section-background-color: #1c1c1cbb;
+	--border-color: 2px solid #0091ff70;
+	--font-color: #ffffff;
+	--highlight-color: #00b3ff70;
 }

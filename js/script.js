@@ -1,5 +1,6 @@
+var user = localStorage.getItem('user');
+
 const { createClient } = supabase;
-const user = prompt("Insira seu nome");
 const sendButton = document.querySelector('#send');
 const active = document.querySelector("#active");
 const ronaldo = document.querySelector("#ronaldo");
@@ -24,13 +25,9 @@ async function getMessages() {
     .from('mensagem')
     .select('*')
     .eq('chat', chat)
-    /*.limit(20 + m)
-    
-    let m = 0;
-    m += 20;*/
+
     localMessages = await data.data;
     showMessages();
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
      console.log(data);
     return data
 }
@@ -72,15 +69,13 @@ async function entrar() {
         console.log( error.message);
         return;
     }
-    // console.log(data.user.email);
 }
 
 async function main() {
     await entrar();
     getMessages(chat);
     setInterval(getMessages, 200);
-    // let personagens = await buscarPersonagens();
-    // console.log(personagens);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
 }
 
 main();
@@ -93,8 +88,8 @@ ronaldo.addEventListener('submit', (event) => {
 })
 
 chats.forEach((radio) => {
-    radio.addEventListener('change', (event) => { //conserta isso
-      chat = parseInt(event.target.value);
+    radio.addEventListener('change', (event) => {
+              chat = parseInt(event.target.value);
       console.log(chat);
     });
   });

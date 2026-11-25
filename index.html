@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Chat-O</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <!-- //or -->
 <!-- <script src="https://unpkg.com/@supabase/supabase-js@2"></script> -->
@@ -22,11 +22,17 @@
     </fieldset>
 
     <fieldset class="menu">
-        <form class="chats">
-            <input type="text" id="busca-box"></input>
-            <input type="button" value="Pesquisar" id="busca-btn"></input><br>
+        
+        <section class="search">
+            <section class="sEngine">
+                <input type="text" id="busca-box"></input>
+                <input type="button" value="Pesquisar" id="busca-btn"></input><br>
+            </section>
             <div id="encontrado"></div><br>
-
+        </section>
+    
+        <form class="chats">
+            <br>
             <section class="chat-selection">
                 <label for="chat1">Chat 1: <input type="radio" value="1" id="chat1" name="batepapo" required></input></label><br>
                 <label for="chat2">Chat 2:<input type="radio" value="2" id="chat2" name="batepapo"></input></label><br>
