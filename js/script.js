@@ -1,5 +1,4 @@
-var user = localStorage.getItem('user');
-
+const user = prompt("Insira nome de usuário.\n Nome deve ser maior que 3 caracteres e menor que 15 caracteres.");
 const { createClient } = supabase;
 const sendButton = document.querySelector('#send');
 const active = document.querySelector("#active");
@@ -14,11 +13,17 @@ let chat = 0;
 let message = document.querySelector('#message');
 let localMessages = [];
 let found = [];
+let abriuAgora = true;
 
 const banco = createClient(
     config.url,
     config.publishableKey
 )
+
+if (!user || user.length < 3 || user.length > 15) {
+    alert("Nome de usuário inválido. Por favor, insira um nome entre 3 e 15 caracteres.");
+    window.location.reload();
+}
 
 async function getMessages() {
     let _, data = await banco
@@ -41,6 +46,11 @@ async function showMessages() {
                     </div>
                 `;
             });
+
+    if (isNearBottom(messagesContainer) || abriuAgora) {
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        abriuAgora = false;
+    }
 }
 
 async function sendMessages(text, chat) {
@@ -71,11 +81,14 @@ async function entrar() {
     }
 }
 
+function isNearBottom(con) {
+  return ((con.scrollHeight - con.scrollTop - con.clientHeight) <= 80);
+}
+
 async function main() {
     await entrar();
     getMessages(chat);
     setInterval(getMessages, 200);
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
 }
 
 main();
@@ -89,7 +102,8 @@ ronaldo.addEventListener('submit', (event) => {
 
 chats.forEach((radio) => {
     radio.addEventListener('change', (event) => {
-              chat = parseInt(event.target.value);
+        abriuAgora = true;
+        chat = parseInt(event.target.value);
       console.log(chat);
     });
   });
