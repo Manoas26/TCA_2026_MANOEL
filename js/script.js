@@ -5,9 +5,14 @@ const active = document.querySelector("#active");
 const ronaldo = document.querySelector("#ronaldo");
 const messagesContainer = document.querySelector('.messages');
 const chats = document.querySelectorAll('input[name="batepapo"]');
+const busca_box = document.querySelector('#busca-box');
+const busca_btn = document.querySelector('#busca-btn');
+const encontrado = document.querySelector('#encontrado');
+
 let chat = 0;
 let message = document.querySelector('#message');
 let localMessages = [];
+let found = [];
 
 const banco = createClient(
     config.url,
@@ -44,7 +49,7 @@ async function showMessages() {
 async function sendMessages(text, chat) {
     let _, data = await banco
     .from('mensagem')
-    .insert({ usuario: 1, chat: chat, hora: new Date().toLocaleString('sv-SE').replace(',', ''), texto: text })
+    .insert({ chat: chat, hora: new Date().toLocaleString('sv-SE').replace(',', ''), texto: text })
 
     console.log(data);
     message.value = "";
@@ -93,5 +98,35 @@ chats.forEach((radio) => {
       console.log(chat);
     });
   });
+
+busca_btn.addEventListener('click', async () => {
+    let _, data = await banco
+    .from('mensagem')
+    .select('*')
+    .ilike('texto', `%${busca_box.value}%`)
+
+    found = await data.data;
+     console.log(data);
+
+    if (busca_box.value === '') {
+        encontrado.innerHTML = '';
+        return;
+    }
+    if (found.length === 0) {
+        encontrado.innerHTML = 'Nada encontrado';
+        return;
+    }
+
+     encontrado.innerHTML = '';
+            found.forEach(mensagem => {
+                encontrado.innerHTML += `
+                    <div class="found-card" id="found-${mensagem.id}">
+                        <p>${mensagem.texto} (${mensagem.hora}, chat: ${mensagem.chat})</p>
+                    </div>
+                `;
+            });
+
+    return data
+});
 
   //aprende a usar realtime para atualizar a tela sem precisar ficar dando refresh, e tbm aprende a usar o .on() para ficar escutando os eventos do banco de dados

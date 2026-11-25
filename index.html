@@ -15,22 +15,26 @@
         
         <form id="ronaldo">
             <div class="messages"></div> <!--vai se incrementar com as mensagens dps -->
-            <input type="text" id="message" placeholder="" max="100"></input>
-            <button type="submit" id="send">Enviar</input>
+            <input type="text" id="message" placeholder="" maxlength="100"></input>
+            <button type="submit" id="send">Enviar</button>
         </form>
     
     </fieldset>
 
     <fieldset class="menu">
         <form class="chats">
-            <input type="text" ></input>
-            <input type="button" value="pesquisar"></input><br><br>
+            <input type="text" id="busca-box"></input>
+            <input type="button" value="Pesquisar" id="busca-btn"></input><br>
+            <div id="encontrado"></div><br>
 
-            <label for="chat1">Chat 1: <input type="radio" value="1" id="chat1" name="batepapo" required></input></label><br>
-            <label for="chat2">Chat 2:<input type="radio" value="2" id="chat2" name="batepapo"></input></label><br>
-            <label for="chat3">Chat 3:<input type="radio" value="3" id="chat3" name="batepapo"></input></label>
+            <section class="chat-selection">
+                <label for="chat1">Chat 1: <input type="radio" value="1" id="chat1" name="batepapo" required></input></label><br>
+                <label for="chat2">Chat 2:<input type="radio" value="2" id="chat2" name="batepapo"></input></label><br>
+                <label for="chat3">Chat 3:<input type="radio" value="3" id="chat3" name="batepapo"></input></label>
+                <div id="active"></div>
+            </section>
+
         </form>
-        <div id="active"></div>
     </fieldset>
 
     <script src="js/env.js"></script>
