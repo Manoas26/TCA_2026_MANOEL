@@ -30,6 +30,8 @@ Este projeto permite que usuários entrem em uma aplicação web e participem de
 
 ## Estrutura do Projeto
 
+<img width="723" height="198" alt="image" src="img/DiagramaDaRedeSocial.drawio(1).png" />
+
 ```text
 [TCA_2026_MANOEL]/
 ├── bdd/
@@ -42,6 +44,4 @@ Este projeto permite que usuários entrem em uma aplicação web e participem de
 |   ├── script.js
 |   └── env.js
 ├── index.html
-└── README.md
-
-<img width="723" height="198" alt="image" src="img/DiagramaDaRedeSocial.drawio(1).png" />
+└── README.md 
